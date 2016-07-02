@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view instanceof ImageButton) {
             imgTempBtn = (ImageButton) view;
 
-            if (operator.equals("")) {
+            if (! operator.equals("")) {
 
                 if (!runnigNum.equals("")) {
                     rightNum = runnigNum;
