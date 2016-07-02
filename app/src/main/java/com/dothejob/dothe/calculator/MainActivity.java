@@ -14,7 +14,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button zeroBtn, oneBtn, towBtn, threBtn, foreBtn, fiveBtn, sixBtn, svenBtn, eightBtn, nienBtn, clearBtn, tempBtn;
     ImageButton diviedBtn, multiBut, subBtn, addBtn, calckBtn, imgTempBtn;
     TextView clackText;
-    String tempText = "", operator = "", leftNum = "", rightNum = "", runnigNum = "", result = "";
+    String operator = "", operator2 = "", tempText = "";
+    double leftNum = 0, runningNum = 0, rightNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view instanceof Button) {
             tempBtn = (Button) view;
+
+
             if (!tempBtn.getText().equals("Clear")) {
                 tempText += tempBtn.getText();
                 clackText.setText(tempText);
-                runnigNum = tempText;
+                runningNum = Double.parseDouble(tempText);
             }
 
         }
@@ -80,28 +83,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view instanceof ImageButton) {
             imgTempBtn = (ImageButton) view;
 
-            if (! operator.equals("")) {
 
-                if (!runnigNum.equals("")) {
-                    rightNum = runnigNum;
-                    runnigNum = "" ;
-
-                    if (view == addBtn) {
-                        result = (Double.parseDouble(leftNum) + Double.parseDouble(rightNum)) +"";
-                    }
-                }
-
-                leftNum = result;
-                clackText.setText(result);
-
-            } else {
-                leftNum = runnigNum;
-                runnigNum = "";
+            if (view == diviedBtn) {
+                operator = "/";
+            } else if (view == multiBut) {
+                operator = "*";
+            } else if (view == subBtn) {
+                operator = "-";
+            } else if (view == addBtn) {
+                operator = "+";
             }
+
+
+            if (!operator2.equals("")) {
+                if (operator2.equals("+")) {
+                    rightNum = runningNum;
+                    runningNum = 0;
+                    tempText = "";
+                    doCalc("+");
+                }
+            } else {
+                leftNum = runningNum;
+                runningNum = 0;
+                tempText = "";
+
+            }
+
+            operator2 = operator;
 
         }
 
 
+    }
+
+
+    public void doCalc(String op) {
+
+        switch (op) {
+            case "+":
+                String temp = String.valueOf(leftNum + rightNum);
+                leftNum += rightNum;
+                clackText.setText(temp);
+        }
     }
 
 }
