@@ -9,13 +9,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button zeroBtn ,oneBtn ,towBtn ,threBtn ,foreBtn ,fiveBtn ,sixBtn ,svenBtn ,eightBtn ,nienBtn ,clearBtn ,tempBtn;
-    ImageButton diviedBtn ,multiBut ,subBtn ,addBtn ,calckBtn ,imgTempBtn;
-    TextView clackText ;
-    String tempText = "";
-    double leftNum = 0 , rightNum = 0 ,resault = 0;
+    Button zeroBtn, oneBtn, towBtn, threBtn, foreBtn, fiveBtn, sixBtn, svenBtn, eightBtn, nienBtn, clearBtn, tempBtn;
+    ImageButton diviedBtn, multiBut, subBtn, addBtn, calckBtn, imgTempBtn;
+    TextView clackText;
+    String tempText = "", operator = "", leftNum = "", rightNum = "", runnigNum = "", result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,25 +67,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
 
-
         if (view instanceof Button) {
             tempBtn = (Button) view;
-            tempText +=  tempBtn.getText();
-            clackText.setText( tempText );
+            if (!tempBtn.getText().equals("Clear")) {
+                tempText += tempBtn.getText();
+                clackText.setText(tempText);
+                runnigNum = tempText;
+            }
+
         }
 
         if (view instanceof ImageButton) {
             imgTempBtn = (ImageButton) view;
-            if (view == diviedBtn){
-                operatorPressed("/");
-            }else  if (view == multiBut){
-                operatorPressed("*");
-            }else if (view == subBtn){
-                operatorPressed("-");
-            }else if (view == addBtn){
-                operatorPressed("+");
-            }else if (view == calckBtn){
-                operatorPressed("=");
+
+            if (operator.equals("")) {
+
+                if (!runnigNum.equals("")) {
+                    rightNum = runnigNum;
+                    runnigNum = "" ;
+
+                    if (view == addBtn) {
+                        result = (Double.parseDouble(leftNum) + Double.parseDouble(rightNum)) +"";
+                    }
+                }
+
+                leftNum = result;
+                clackText.setText(result);
+
+            } else {
+                leftNum = runnigNum;
+                runnigNum = "";
             }
 
         }
@@ -94,32 +104,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @SuppressLint("SetTextI18n")
-    public void operatorPressed(String operator){
-
-        if (rightNum == 0){
-            rightNum = Double.parseDouble(clackText.getText().toString());
-            clackText.setText(operator);
-            tempText = "";
-        }else if (operator.equals("+")){
-            rightNum +=  Double.parseDouble(clackText.getText().toString());
-            clackText.setText(operator);
-            tempText = "";
-        }else if (operator.equals("-")){
-            rightNum -=  Double.parseDouble(clackText.getText().toString());
-            clackText.setText(operator);
-            tempText = "";
-        }else if (operator.equals("*")){
-            rightNum *=  Double.parseDouble(clackText.getText().toString());
-            clackText.setText(operator);
-            tempText = "";
-        }else if (operator.equals("/")){
-            rightNum /=  Double.parseDouble(clackText.getText().toString());
-            clackText.setText(operator);
-            tempText = "";
-        }else if (operator.equals("=")){
-            clackText.setText(rightNum+"");
-            tempText = "";
-        }
-    }
 }
