@@ -1,5 +1,6 @@
 package com.dothejob.dothe.calculator;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button zeroBtn ,oneBtn ,towBtn ,threBtn ,foreBtn ,fiveBtn ,sixBtn ,svenBtn ,eightBtn ,nienBtn ,clearBtn ,tempBtn;
     ImageButton diviedBtn ,multiBut ,subBtn ,addBtn ,calckBtn ,imgTempBtn;
-    TextView clackText;
+    TextView clackText ;
+    String tempText = "";
+    double leftNum = 0 , rightNum = 0 ,resault = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +71,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view instanceof Button) {
             tempBtn = (Button) view;
-            Toast.makeText(this , tempBtn.getText() ,Toast.LENGTH_LONG).show();
+            tempText +=  tempBtn.getText();
+            clackText.setText( tempText );
         }
 
         if (view instanceof ImageButton) {
             imgTempBtn = (ImageButton) view;
             if (view == diviedBtn){
-                Toast.makeText(this , "/" ,Toast.LENGTH_LONG).show();
+                operatorPressed("/");
             }else  if (view == multiBut){
-                Toast.makeText(this , "*" ,Toast.LENGTH_LONG).show();
+                operatorPressed("*");
             }else if (view == subBtn){
-                Toast.makeText(this , "-" ,Toast.LENGTH_LONG).show();
+                operatorPressed("-");
             }else if (view == addBtn){
-                Toast.makeText(this , "+" ,Toast.LENGTH_LONG).show();
+                operatorPressed("+");
             }else if (view == calckBtn){
-                Toast.makeText(this , "=" ,Toast.LENGTH_LONG).show();
+                operatorPressed("=");
             }
 
         }
 
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void operatorPressed(String operator){
+
+        if (rightNum == 0){
+            rightNum = Double.parseDouble(clackText.getText().toString());
+            clackText.setText(operator);
+            tempText = "";
+        }else if (operator.equals("+")){
+            rightNum +=  Double.parseDouble(clackText.getText().toString());
+            clackText.setText(operator);
+            tempText = "";
+        }else if (operator.equals("-")){
+            rightNum -=  Double.parseDouble(clackText.getText().toString());
+            clackText.setText(operator);
+            tempText = "";
+        }else if (operator.equals("*")){
+            rightNum *=  Double.parseDouble(clackText.getText().toString());
+            clackText.setText(operator);
+            tempText = "";
+        }else if (operator.equals("/")){
+            rightNum /=  Double.parseDouble(clackText.getText().toString());
+            clackText.setText(operator);
+            tempText = "";
+        }else if (operator.equals("=")){
+            clackText.setText(rightNum+"");
+            tempText = "";
+        }
     }
 }
